@@ -30,6 +30,7 @@ def get_sample(model_class):
         smp.UnetPlusPlus,
         smp.MAnet,
         smp.UPerNet,
+        smp.EfficientUnetPlusPlus,
     ]:
         sample = torch.ones([1, 3, 64, 64])
     elif model_class == smp.PAN:
@@ -60,17 +61,28 @@ def _test_forward_backward(model, sample, test_shape=False):
 @pytest.mark.parametrize(
     "model_class",
     [smp.FPN, smp.PSPNet, smp.Linknet, smp.Unet, smp.UnetPlusPlus, smp.UPerNet],
+    [
+        smp.FPN,
+        smp.PSPNet,
+        smp.Linknet,
+        smp.Unet,
+        smp.UnetPlusPlus,
+        smp.EfficientUnetPlusPlus,
+    ],
 )
 def test_forward(model_class, encoder_name, encoder_depth, **kwargs):
     if (
         model_class is smp.Unet
         or model_class is smp.UnetPlusPlus
         or model_class is smp.MAnet
+        or model_class is smp.EfficientUnetPlusPlus
     ):
         kwargs["decoder_channels"] = (16, 16, 16, 16, 16)[-encoder_depth:]
-    if model_class in [smp.UnetPlusPlus, smp.Linknet] and encoder_name.startswith(
-        "mit_b"
-    ):
+    if model_class in [
+        smp.UnetPlusPlus,
+        smp.Linknet,
+        smp.EfficientUnetPlusPlus,
+    ] and encoder_name.startswith("mit_b"):
         return  # skip mit_b*
     if (
         model_class is smp.FPN
@@ -102,6 +114,7 @@ def test_forward(model_class, encoder_name, encoder_depth, **kwargs):
         smp.UnetPlusPlus,
         smp.MAnet,
         smp.DeepLabV3,
+        smp.EfficientUnetPlusPlus,
     ],
 )
 def test_forward_backward(model_class):
@@ -112,7 +125,16 @@ def test_forward_backward(model_class):
 
 @pytest.mark.parametrize(
     "model_class",
-    [smp.PAN, smp.FPN, smp.PSPNet, smp.Linknet, smp.Unet, smp.UnetPlusPlus, smp.MAnet],
+    [
+        smp.PAN,
+        smp.FPN,
+        smp.PSPNet,
+        smp.Linknet,
+        smp.Unet,
+        smp.UnetPlusPlus,
+        smp.MAnet,
+        smp.EfficientUnetPlusPlus,
+    ],
 )
 def test_aux_output(model_class):
     model = model_class(
