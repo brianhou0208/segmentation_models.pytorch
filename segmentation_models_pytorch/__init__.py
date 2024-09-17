@@ -51,7 +51,7 @@ def create_model(
         DeepLabV3Plus,
         PAN,
         UPerNet,
-        EfficientUnetPlusPlus
+        EfficientUnetPlusPlus,
     ]
     archs_dict = {a.__name__.lower(): a for a in archs}
     try:

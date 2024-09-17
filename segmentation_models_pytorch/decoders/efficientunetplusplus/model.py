@@ -10,12 +10,12 @@ from .decoder import EfficientUnetPlusPlusDecoder
 
 
 class EfficientUnetPlusPlus(SegmentationModel):
-    """The EfficientUNet++ is a fully convolutional neural network for ordinary and medical image semantic segmentation. 
-    Consists of an *encoder* and a *decoder*, connected by *skip connections*. The encoder extracts features of 
-    different spatial resolutions, which are fed to the decoder through skip connections. The decoder combines its 
-    own feature maps with the ones from skip connections to produce accurate segmentations masks.  The EfficientUNet++ 
-    decoder architecture is based on the UNet++, a model composed of nested U-Net-like decoder sub-networks. To 
-    increase performance and computational efficiency, the EfficientUNet++ replaces the UNet++'s blocks with 
+    """The EfficientUNet++ is a fully convolutional neural network for ordinary and medical image semantic segmentation.
+    Consists of an *encoder* and a *decoder*, connected by *skip connections*. The encoder extracts features of
+    different spatial resolutions, which are fed to the decoder through skip connections. The decoder combines its
+    own feature maps with the ones from skip connections to produce accurate segmentations masks.  The EfficientUNet++
+    decoder architecture is based on the UNet++, a model composed of nested U-Net-like decoder sub-networks. To
+    increase performance and computational efficiency, the EfficientUNet++ replaces the UNet++'s blocks with
     inverted residual blocks with depthwise convolutions and embedded spatial and channel attention mechanisms.
     Synergizes well with EfficientNet encoders. Due to their efficient visual representations (i.e., using few channels
     to represent extracted features), EfficientNet encoders require few computation from the decoder.
@@ -50,7 +50,7 @@ class EfficientUnetPlusPlus(SegmentationModel):
 
     Reference:
         https://arxiv.org/abs/2106.11447
-    
+
     """
 
     def __init__(
@@ -70,7 +70,9 @@ class EfficientUnetPlusPlus(SegmentationModel):
 
         if encoder_name.startswith("mit_b"):
             raise ValueError(
-                "EfficientUNetPlusPlus is not support encoder_name={}".format(encoder_name)
+                "EfficientUNetPlusPlus is not support encoder_name={}".format(
+                    encoder_name
+                )
             )
 
         self.encoder = get_encoder(
@@ -85,7 +87,7 @@ class EfficientUnetPlusPlus(SegmentationModel):
             decoder_channels=decoder_channels,
             n_blocks=encoder_depth,
             squeeze_ratio=decoder_squeeze_ratio,
-            expansion_ratio=decoder_expansion_ratio
+            expansion_ratio=decoder_expansion_ratio,
         )
 
         self.segmentation_head = SegmentationHead(
