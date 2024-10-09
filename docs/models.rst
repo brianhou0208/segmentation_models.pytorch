@@ -68,10 +68,10 @@ PAN
 .. autoclass:: segmentation_models_pytorch.PAN
 
 
-.. _upernet:
+.. _pan:
 
 UPerNet
 ~~~
-.. autoclass:: segmentation_models_pytorch.PAN
+.. autoclass:: segmentation_models_pytorch.UPerNet
 
 
